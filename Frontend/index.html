@@ -24,7 +24,7 @@ body {
 </head>
 <body style="color: white;">
 
- <header style="position: fixed;background-color:grey;padding: 0 20px;width: 840px;font-family: 'Comic Sans MS', cursive, sans-serif; height: 50px;"><h2>Welcome to Smart Photo Gallery</h2>
+ <header style="position: fixed;background-color:grey;padding: 0 20px;width: 840px;font-family: 'Comic Sans MS', cursive, sans-serif; height: 50px;"><h2>Smart Photo Gallery</h2>
  </header>
 
 <div id="chatArea" style="background-color:grey;">
@@ -81,7 +81,7 @@ body {
 
 function submitChat(e) {
   var search_query = document.getElementById('transcript').value;
-
+  alert("called")
   var params = {
     headers: {
       param0: 'Accept:application/json',
@@ -94,24 +94,30 @@ function submitChat(e) {
   //       'q': search_query,
   //   },
   // };
-  var body = JSON.stringify({"search_query":search_query})
+
+  var body = JSON.stringify({
+  "queryStringParameters": {
+    "q": search_query
+    }
+  })
+  // var body = JSON.stringify({"search_query":search_query})
   var apigClient = apigClientFactory.newClient();
-    apigClient.searchPost(params,body)
+    apigClient.searchImagesPost(params,body)
     .then(function(result){
       console.log(result['data']['body']);
       json = JSON.parse(result['data']['body'])
       // alert('Passed')
-      console.log(json)
-      botResponse = json['files']
-      console.log('bot response')
-      console.log(botResponse)
-      if(botResponse.length>0)
+      console.log("data", json)
+      // botResponse = json['files']
+      // console.log('bot response')
+      // console.log(botResponse)
+      if(json.length>0)
       {
         img_area = document.getElementById('img_area')
-        for (let step = 0; step < botResponse.length; step++) {
+        for (let step = 0; step < json.length; step++) {
           // Runs 5 times, with values of step 0 through 4.
           var userImg = document.createElement("IMG");
-          userImg.src = "https://s3.amazonaws.com/assign02-photos/"+botResponse[step];
+          userImg.src = "https://s3.amazonaws.com/assign02-photos/"+json[step];
           userImg.alt = "User's Photo";
           userImg.style.width = "250px"
           userImg.style.height = "250px"
@@ -173,7 +179,7 @@ function submitUpload(evt) {
             var body = JSON.stringify({"img": solution, "name":fileToLoad.name, "customlabels":labels});
 
             var apigClient = apigClientFactory.newClient();
-            apigClient.uploadImageS3LambdaPost(params, body)
+            apigClient.uploadImagePost(params, body)
             .then(function(result){
               console.log('went to then')
             }).catch( function(result){

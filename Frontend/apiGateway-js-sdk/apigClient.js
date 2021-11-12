@@ -53,7 +53,7 @@ apigClientFactory.newClient = function (config) {
 
     
     // extract endpoint and path from url
-    var invokeUrl = 'https://o2ziqrjvr0.execute-api.us-east-1.amazonaws.com/prod';
+    var invokeUrl = 'https://2mgrzhor88.execute-api.us-east-1.amazonaws.com/prod';
     var endpoint = /(^https?:\/\/[^\/]+)/g.exec(invokeUrl)[1];
     var pathComponent = invokeUrl.substring(endpoint.length);
 
@@ -86,7 +86,7 @@ apigClientFactory.newClient = function (config) {
     apigClient.searchImagesPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, ['body'], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
         var searchImagesPostRequest = {
             verb: 'post'.toUpperCase(),
@@ -119,129 +119,39 @@ apigClientFactory.newClient = function (config) {
     };
     
     
-    apigClient.uploadImageS3LambdaPost = function (params, body, additionalParams) {
+    apigClient.uploadImagePost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var uploadImageS3LambdaPostRequest = {
+        var uploadImagePostRequest = {
             verb: 'post'.toUpperCase(),
-            path: pathComponent + uritemplate('/upload-image-s3-lambda').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/upload-image').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(uploadImageS3LambdaPostRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(uploadImagePostRequest, authType, additionalParams, config.apiKey);
     };
     
     
-    apigClient.uploadImageS3LambdaOptions = function (params, body, additionalParams) {
+    apigClient.uploadImageOptions = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
         apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
         
-        var uploadImageS3LambdaOptionsRequest = {
+        var uploadImageOptionsRequest = {
             verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/upload-image-s3-lambda').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            path: pathComponent + uritemplate('/upload-image').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
             queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
             body: body
         };
         
         
-        return apiGatewayClient.makeRequest(uploadImageS3LambdaOptionsRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.uploadImageToS3LambdaPost = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-        
-        var uploadImageToS3LambdaPostRequest = {
-            verb: 'post'.toUpperCase(),
-            path: pathComponent + uritemplate('/upload-image-to-s3-lambda').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(uploadImageToS3LambdaPostRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.uploadImageToS3LambdaOptions = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-        
-        var uploadImageToS3LambdaOptionsRequest = {
-            verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/upload-image-to-s3-lambda').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(uploadImageToS3LambdaOptionsRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.bucketOptions = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-        
-        var bucketOptionsRequest = {
-            verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/{bucket}').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(bucketOptionsRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.bucketFilenamePut = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, ['filename', 'bucket'], ['body']);
-        
-        var bucketFilenamePutRequest = {
-            verb: 'put'.toUpperCase(),
-            path: pathComponent + uritemplate('/{bucket}/{filename}').expand(apiGateway.core.utils.parseParametersToObject(params, ['filename', 'bucket'])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(bucketFilenamePutRequest, authType, additionalParams, config.apiKey);
-    };
-    
-    
-    apigClient.bucketFilenameOptions = function (params, body, additionalParams) {
-        if(additionalParams === undefined) { additionalParams = {}; }
-        
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
-        
-        var bucketFilenameOptionsRequest = {
-            verb: 'options'.toUpperCase(),
-            path: pathComponent + uritemplate('/{bucket}/{filename}').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
-            headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
-            body: body
-        };
-        
-        
-        return apiGatewayClient.makeRequest(bucketFilenameOptionsRequest, authType, additionalParams, config.apiKey);
+        return apiGatewayClient.makeRequest(uploadImageOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
 
